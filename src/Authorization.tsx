@@ -13,13 +13,13 @@ function Authorization() {
                         <form className={"flex flex-col"}>
                             <div className={"flex flex-col"}>
                                 <label>Email</label>
-                                <input type={"text"} className={"border-[0.5px] border-black"}/>
+                                <input type={"text"} className={"border-[0.5px] border-black focus:outline-none"}/>
                             </div>
                             <div className={"flex flex-col"}>
                                 <label>Password</label>
-                                <input type={"text"} className={"border-[0.5px] border-black"}/>
+                                <input type={"text"} className={"border-[0.5px] border-black focus:outline-none"}/>
                             </div>
-                            <button type={"submit"} className={"bg-blue-500 w-1/4 mt-2 rounded-md p-1 border-[0.5px] border-black"}>Log in</button>
+                            <button type={"submit"} className={"bg-blue-500 w-1/4 mt-2 rounded-md p-1 border-[0.5px] border-black focus:outline-none"}>Log in</button>
                         </form>
                     </TabsContent>
                     <TabsContent value="Signin">Change your password here.</TabsContent>
