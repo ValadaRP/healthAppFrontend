@@ -1,16 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+// import App from './App.tsx'
 import './index.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import {createBrowserRouter, RouterProvider} from "react-router-dom"
+import Authorization from "@/Authorization.tsx";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App/>
+        element: <Authorization/>
     },
 ]);
 
