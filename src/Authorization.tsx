@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Login from "@/components/login/Login.tsx";
+import Login from "@/components/forms/Login.tsx";
+import Signup from "@/components/forms/Signup.tsx";
 
 function Authorization() {
     return (
@@ -13,7 +14,9 @@ function Authorization() {
                     <TabsContent value="Login" className={""}>
                         <Login />
                     </TabsContent>
-                    <TabsContent value="Signin">Change your password here.</TabsContent>
+                    <TabsContent value="Signin">
+                        <Signup />
+                    </TabsContent>
                 </Tabs>
             </div>
 

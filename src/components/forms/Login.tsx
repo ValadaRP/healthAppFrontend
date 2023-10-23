@@ -30,6 +30,11 @@ export default function Login(){
     const apiRequest = async (values: z.infer<typeof logInSchema>) => {
         return await axios.post('http://localhost:8080/api/auth/authenticate', {
             values
+        },{
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
         });
     }
     const {mutate, data} = useMutation({
@@ -38,6 +43,7 @@ export default function Login(){
     const onSubmit = async (values: z.infer<typeof logInSchema>) => {
         mutate(values);
         console.log(data);
+        console.log(values);
     };
 
 
@@ -77,7 +83,7 @@ export default function Login(){
                             </FormItem>
                         )}
                     />
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" size={"lg"}>Submit</Button>
                 </form>
             </Form>
         </>
