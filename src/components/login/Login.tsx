@@ -13,23 +13,33 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button} from "@/components/ui/button.tsx";
 import {Input} from "@/components/ui/input.tsx";
+import {useMutation} from "react-query";
+import axios from "axios";
 
-
-function onSubmit(values: z.infer<typeof logInSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-    console.log("test")
-}
 
 export default function Login(){
+
+    // React Hook Form
     const form = useForm<z.infer<typeof logInSchema>>({
         resolver: zodResolver(logInSchema),
         defaultValues: {
-            email : "",
-            password : "",
+            email : "example@exp.com",
+            password : "password",
         },
     });
+    const apiRequest = async (values: z.infer<typeof logInSchema>) => {
+        return await axios.post('http://localhost:8080/api/auth/authenticate', {
+            values
+        });
+    }
+    const {mutate, data} = useMutation({
+        mutationFn: apiRequest,
+    });
+    const onSubmit = async (values: z.infer<typeof logInSchema>) => {
+        mutate(values);
+        console.log(data);
+    };
+
 
     return(
         <>
