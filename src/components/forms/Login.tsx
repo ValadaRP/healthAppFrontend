@@ -15,8 +15,11 @@ import {Button} from "@/components/ui/button.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {useMutation} from "react-query";
 import axios from "axios";
+import {useContext} from "react";
+import {AuthContext} from "@/context/auth-context.ts";
 
 export default function Login(){
+    const auth = useContext(AuthContext);
     type LogInRespone = {
         data: {
             token: string;
@@ -41,7 +44,8 @@ export default function Login(){
     const {mutate} = useMutation({
         mutationFn: apiRequest,
         onSuccess: (data: LogInRespone) => {
-            console.log(data.data.token)
+            auth.login(data.data.token);
+
         },
     });
     const onSubmit = async (values: z.infer<typeof logInSchema>) => {
