@@ -12,9 +12,17 @@ import {Button} from "@/components/ui/button.tsx";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
-import {signUpSchema} from "@/models/Schema.ts";
+import { signUpSchema} from "@/models/Schema.ts";
+import axios from "axios";
+import {useMutation} from "react-query";
 
 const Signup = () => {
+    type LogInRespone = {
+        data: {
+            token: string;
+        }
+    }
+
     const form = useForm({
         resolver: zodResolver(signUpSchema),
         defaultValues: {
@@ -25,16 +33,30 @@ const Signup = () => {
             confirmPassword: "",
         }
     });
+    const apiRequestSignup = async (values: z.infer<typeof signUpSchema>) => {
+        return await axios.post('http://localhost:8080/api/auth/register', {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            password: values.password,
+        });
+    }
 
+    const {mutate} = useMutation({
+        mutationFn: apiRequestSignup,
+        onSuccess: (data: LogInRespone) => {
+            console.log(data.data.token);
+        },
+    });
     const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
-        console.log(values);
+        mutate(values);
     };
+
     return (
         <>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    <div className={"grid grid-cols-2 space-x-4"}>
-                        <div>
+                    <div className={"grid grid-cols-2 gap-x-2"}>
                             <FormField
                                 control={form.control}
                                 name="firstName"
@@ -83,8 +105,6 @@ const Signup = () => {
                                     </FormItem>
                                 )}
                             />
-                        </div>
-                        <div className={"space-y-2"}>
                             <FormField
                                 control={form.control}
                                 name="password"
@@ -117,8 +137,6 @@ const Signup = () => {
                                     </FormItem>
                                 )}
                             />
-
-                        </div>
                     </div>
                     <Button type="submit" size={"lg"}>Submit</Button>
                 </form>

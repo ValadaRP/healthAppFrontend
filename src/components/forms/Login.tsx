@@ -16,8 +16,12 @@ import {Input} from "@/components/ui/input.tsx";
 import {useMutation} from "react-query";
 import axios from "axios";
 
-
 export default function Login(){
+    type LogInRespone = {
+        data: {
+            token: string;
+        }
+    }
 
     // React Hook Form
     const form = useForm<z.infer<typeof logInSchema>>({
@@ -29,21 +33,19 @@ export default function Login(){
     });
     const apiRequest = async (values: z.infer<typeof logInSchema>) => {
         return await axios.post('http://localhost:8080/api/auth/authenticate', {
-            values
-        },{
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
+            email: values.email,
+            password: values.password,
         });
+
     }
-    const {mutate, data} = useMutation({
+    const {mutate} = useMutation({
         mutationFn: apiRequest,
+        onSuccess: (data: LogInRespone) => {
+            console.log(data.data.token)
+        },
     });
     const onSubmit = async (values: z.infer<typeof logInSchema>) => {
         mutate(values);
-        console.log(data);
-        console.log(values);
     };
 
 
