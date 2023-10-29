@@ -15,8 +15,13 @@ import {z} from "zod";
 import { signUpSchema} from "@/models/Schema.ts";
 import axios from "axios";
 import {useMutation} from "react-query";
+import {useNavigate} from "react-router-dom";
+import {useContext} from "react";
+import {AuthContext} from "@/context/auth-context.ts";
 
 const Signup = () => {
+    const navigate = useNavigate();
+    const auth = useContext(AuthContext);
     type LogInRespone = {
         data: {
             token: string;
@@ -45,7 +50,8 @@ const Signup = () => {
     const {mutate} = useMutation({
         mutationFn: apiRequestSignup,
         onSuccess: (data: LogInRespone) => {
-            console.log(data.data.token);
+            auth.login(data.data.token);
+            navigate("/diet-management");
         },
     });
     const onSubmit = async (values: z.infer<typeof signUpSchema>) => {

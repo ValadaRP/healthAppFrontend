@@ -1,16 +1,18 @@
 import {useState, useCallback, useEffect} from "react";
 
+
 let logoutTimer: NodeJS.Timeout;
 export const useAuth = () => {
     const [token, setToken] = useState<string | null>(null);
     const [tokenExpirationDate, setTokenExpirationDate] = useState<Date | null>(null);
     const [email, setEmail] = useState<string | null>(null);
 
+
     const login = useCallback((token: string, email: string,expirationDate?: Date) => {
         if (token) {
             setToken(token);
             setEmail(email);
-            const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + (1000 * 60 * 60) * 3);
+            const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
             setTokenExpirationDate(tokenExpirationDate);
             localStorage.setItem('userData', JSON.stringify({
                 token: token,

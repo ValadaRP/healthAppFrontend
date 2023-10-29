@@ -17,10 +17,12 @@ import {useMutation} from "react-query";
 import axios from "axios";
 import {useContext} from "react";
 import {AuthContext} from "@/context/auth-context.ts";
+import { useNavigate} from "react-router-dom";
 
 export default function Login(){
+    const navigate = useNavigate();
     const auth = useContext(AuthContext);
-    type LogInRespone = {
+    type LogInResponse = {
         data: {
             token: string;
         }
@@ -43,9 +45,9 @@ export default function Login(){
     }
     const {mutate} = useMutation({
         mutationFn: apiRequest,
-        onSuccess: (data: LogInRespone) => {
+        onSuccess: (data: LogInResponse) => {
             auth.login(data.data.token);
-
+            navigate("/diet-management");
         },
     });
     const onSubmit = async (values: z.infer<typeof logInSchema>) => {
