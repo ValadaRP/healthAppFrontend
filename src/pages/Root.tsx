@@ -7,43 +7,8 @@ import DietManagement from "@/pages/DietManagement.tsx";
 import Navbar from "@/pages/Navbar.tsx";
 
 function Root() {
-  const {token, login, logout} = useAuth();
+  const {token, login, logout, email} = useAuth();
   let router;
-  // if (token){
-  //     router = createBrowserRouter([
-  //         {
-  //             path: "/",
-  //             element: <App />,
-  //             children: [
-  //                 {
-  //                       path: "/login",
-  //                       element: <Authorization/>,
-  //                 },
-  //                 {
-  //                     path: "/diet-management",
-  //                     element: <DietManagement/>,
-  //                 }
-  //             ],
-  //         },
-  //     ]);
-  // }else {
-  //     router = createBrowserRouter([
-  //         {
-  //             path: "/",
-  //             element: <App />,
-  //             children: [
-  //                 {
-  //                     path: "/login",
-  //                     element: <Authorization/>,
-  //                 },
-  //                 {
-  //                     path: "/diet-management",
-  //                     element: <DietManagement/>,
-  //                 }
-  //             ],
-  //         },
-  //     ]);
-  // }
     if (token){
         router = (
             <Routes>
@@ -67,7 +32,8 @@ function Root() {
         token: token,
         // @ts-ignore
         login: login,
-        logout: logout
+        logout: logout,
+        email: email
       }}>
           <BrowserRouter>
           <Navbar />

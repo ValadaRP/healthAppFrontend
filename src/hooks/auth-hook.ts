@@ -1,4 +1,5 @@
 import {useState, useCallback, useEffect} from "react";
+import {toast} from "react-toastify";
 
 
 let logoutTimer: NodeJS.Timeout;
@@ -28,6 +29,7 @@ export const useAuth = () => {
         setToken(null);
         setTokenExpirationDate(null);
         localStorage.removeItem('userData');
+        toast.success("You have been logged out !🫡");
     }, []);
 
     useEffect(() => {
@@ -46,6 +48,6 @@ export const useAuth = () => {
         }
     }, [token, login, logout, email]);
 
-    return {token, login, logout};
+    return {token, login, logout, email};
 };
 

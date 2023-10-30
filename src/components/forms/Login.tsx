@@ -18,6 +18,7 @@ import axios from "axios";
 import {useContext} from "react";
 import {AuthContext} from "@/context/auth-context.ts";
 import { useNavigate} from "react-router-dom";
+import { toast } from 'react-toastify';
 
 export default function Login(){
     const navigate = useNavigate();
@@ -32,21 +33,25 @@ export default function Login(){
     const form = useForm<z.infer<typeof logInSchema>>({
         resolver: zodResolver(logInSchema),
         defaultValues: {
-            email : "example@exp.com",
+            email : "example2@exp.com",
             password : "password",
         },
     });
     const apiRequest = async (values: z.infer<typeof logInSchema>) => {
-        return await axios.post('http://localhost:8080/api/auth/authenticate', {
+        return await toast.promise(axios.post('http://localhost:8080/api/auth/authenticate', {
             email: values.email,
             password: values.password,
+        }), {
+            pending: 'Logging in...',
+            success: 'Logged in successfully ! 😁',
+            error: 'Something went wrong ! 😒',
         });
 
     }
     const {mutate} = useMutation({
         mutationFn: apiRequest,
         onSuccess: (data: LogInResponse) => {
-            auth.login(data.data.token);
+            auth.login(data.data.token, form.getValues("email"));
             navigate("/diet-management");
         },
     });

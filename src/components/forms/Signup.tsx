@@ -18,6 +18,7 @@ import {useMutation} from "react-query";
 import {useNavigate} from "react-router-dom";
 import {useContext} from "react";
 import {AuthContext} from "@/context/auth-context.ts";
+import {toast} from "react-toastify";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -39,18 +40,22 @@ const Signup = () => {
         }
     });
     const apiRequestSignup = async (values: z.infer<typeof signUpSchema>) => {
-        return await axios.post('http://localhost:8080/api/auth/register', {
+        return await toast.promise(axios.post('http://localhost:8080/api/auth/register', {
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,
             password: values.password,
+        }),{
+            pending: 'Signing up...',
+            success: 'Signed up successfully ! 👍',
+            error: 'Something went wrong ! 😒',
         });
     }
 
     const {mutate} = useMutation({
         mutationFn: apiRequestSignup,
         onSuccess: (data: LogInRespone) => {
-            auth.login(data.data.token);
+            auth.login(data.data.token, form.getValues("email"));
             navigate("/diet-management");
         },
     });
