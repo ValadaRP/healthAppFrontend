@@ -29,3 +29,13 @@ export const signUpSchema = z.object({
     message: "Passwords do not match",
     path: ["confirmPassword"],
 });
+
+export const mealsGenerateSchema = z.object({
+    targetCalories: z.number().int().min(500).max(10000,{
+        message: "Target calories must be between 1000 and 10000",
+    }),
+    diet: z.string({
+        required_error: "Please select a diet",
+    }),
+    exclude: z.string().trim(),
+})

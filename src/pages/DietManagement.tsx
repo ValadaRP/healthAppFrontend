@@ -2,6 +2,7 @@ import {useQuery} from "react-query";
 import {AuthContext} from "@/context/auth-context.ts";
 import {useContext} from "react";
 import axios from "axios";
+import MealsForm from "@/components/forms/MealsForm.tsx";
 
 interface UserSpoonData {
     id: number;
@@ -12,35 +13,47 @@ interface UserSpoonData {
 }
 
 const DietManagement = () => {
+    const apiKey = import.meta.env.VITE_SPOON_KEY;
     const auth = useContext(AuthContext);
+
     const fetchUserSpoonData = async (): Promise<UserSpoonData> => {
         const res = await axios.get(`http://localhost:8080/api/spoonacular?userEmail=${auth.email}`, {
             headers: {
                 Authorization: `Bearer ${auth.token}`,
-            }
+            },
         });
         return res.data;
     };
+    const fetchSpoonMeals = async () => {
+        const res = await axios.get(`https://api.spoonacular.com/mealplanner/generate`,{
+            params: {
+                timeFrame: "day",
+                apiKey: apiKey,
+            },
+        })
+        return res.data;
+    };
 
-    const {data, isLoading} = useQuery<UserSpoonData>({
+
+    const userSpoonData = useQuery<UserSpoonData>({
         queryKey: ['userSpoonData'],
         queryFn: fetchUserSpoonData,
         },
     );
+    // const {data} = userSpoonData;
+    const spoonMeals = useQuery({
+        queryKey: ['spoonMeals'],
+        queryFn: fetchSpoonMeals,
+        enabled: false,
+    });
 
-    if (!data) return null;
+
+    if (!userSpoonData.data) return null;
 
     return(
         <>
             <div className={"text-center"}>
-                {isLoading ? <p className={"bg-gray-600"}>Loading...</p> :
-                <>
-                <h1>Diet Management</h1>
-                <p>Username: {data.username}</p>
-                <p>Email: {data.email}</p>
-                <p>Spoonacular Password: {data.spoonacularPassword}</p>
-                <p>Hash: {data.hash}</p>
-                </>}
+                <MealsForm />
             </div>
 
         </>
