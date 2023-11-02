@@ -12,8 +12,8 @@ interface UserSpoonData {
     hash: string;
 }
 
+
 const DietManagement = () => {
-    const apiKey = import.meta.env.VITE_SPOON_KEY;
     const auth = useContext(AuthContext);
 
     const fetchUserSpoonData = async (): Promise<UserSpoonData> => {
@@ -24,15 +24,7 @@ const DietManagement = () => {
         });
         return res.data;
     };
-    const fetchSpoonMeals = async () => {
-        const res = await axios.get(`https://api.spoonacular.com/mealplanner/generate`,{
-            params: {
-                timeFrame: "day",
-                apiKey: apiKey,
-            },
-        })
-        return res.data;
-    };
+
 
 
     const userSpoonData = useQuery<UserSpoonData>({
@@ -40,19 +32,13 @@ const DietManagement = () => {
         queryFn: fetchUserSpoonData,
         },
     );
-    // const {data} = userSpoonData;
-    const spoonMeals = useQuery({
-        queryKey: ['spoonMeals'],
-        queryFn: fetchSpoonMeals,
-        enabled: false,
-    });
-
-
+    const {data} = userSpoonData;
+    console.log(data);
     if (!userSpoonData.data) return null;
 
     return(
         <>
-            <div className={"text-center"}>
+            <div>
                 <MealsForm />
             </div>
 

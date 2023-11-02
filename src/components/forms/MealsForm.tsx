@@ -18,9 +18,31 @@ import {cn} from "@/lib/utils.ts";
 import {ChevronsUpDown, Check} from "lucide-react";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem} from "@/components/ui/command.tsx";
 import {diets} from "@/models/Dietes.ts";
+import axios from "axios";
+import {useQuery} from "react-query";
+import {toast} from "react-toastify";
+import Meal from "@/components/ui/meal.tsx";
 
+interface MealProps {
+        meals:{
+            id: number;
+            imageType: string;
+            title: string;
+            readyInMinutes: number;
+            servings: number;
+            sourceUrl: string;
+        }[],
+        nutrients:{
+            calories: number;
+            protein: number;
+            fat: number;
+            carbohydrates: number;
+        },
+}
 
 const MealsForm = () => {
+    const apiKey = import.meta.env.VITE_SPOON_KEY;
+
     const form = useForm<z.infer<typeof mealsGenerateSchema>>({
         resolver: zodResolver(mealsGenerateSchema),
         defaultValues: {
@@ -30,15 +52,37 @@ const MealsForm = () => {
         },
     });
 
-    function onSubmit(data: z.infer<typeof mealsGenerateSchema>) {
-        console.log(data);
+    const fetchSpoonMeals = async (): Promise<MealProps> => {
+        const res = await toast.promise(axios.get(`https://api.spoonacular.com/mealplanner/generate`,{
+            params: {
+                timeFrame: "day",
+                targetCalories: form.getValues("targetCalories"),
+                diet: form.getValues("diet"),
+                apiKey: apiKey,
+            },
+        }),{
+            pending: 'Generating...',
+            success: 'Success ! 😁',
+            error: 'Something went wrong ! 😒',
+        })
+        return res.data;
+    };
+
+    const {data,refetch} = useQuery({
+        queryKey: ['spoonMeals'],
+        queryFn: fetchSpoonMeals,
+        enabled: false,
+    }) as {data: MealProps, refetch: () => void};
+
+    function onSubmit() {
+        refetch();
     }
 
 
     return(
-        <div className={"p-4 w-1/2 mx-auto"}>
+        <div className={"w-full shadow-2xl rounded-md"}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-8"}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-8 p-4"}>
                     <FormField
                         control={form.control}
                         name="targetCalories"
@@ -46,7 +90,7 @@ const MealsForm = () => {
                             <FormItem>
                                 <FormLabel>Target Calories</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Calories" {...field} type={"number"}/>
+                                    <Input placeholder="Calories" {...field} type={"number"} onChange={event => field.onChange(parseInt(event.target.value))}/>
                                 </FormControl>
                                 <FormDescription>
                                     Your target Calories for the day.
@@ -59,7 +103,7 @@ const MealsForm = () => {
                         control={form.control}
                         name="diet"
                         render={({ field }) => (
-                            <FormItem className={"flex flex-col items-center justify-center"}>
+                            <FormItem className={"flex flex-col "}>
                                 <FormLabel>Diet</FormLabel>
                                 <Popover>
                                     <PopoverTrigger asChild>
@@ -128,9 +172,14 @@ const MealsForm = () => {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" size={"lg"}>Submit</Button>
+                    <Button type="submit" size={"lg"}>Generate</Button>
                 </form>
             </Form>
+            <div>
+
+                <Meal data={data} />
+            </div>
+
         </div>
     )
 };

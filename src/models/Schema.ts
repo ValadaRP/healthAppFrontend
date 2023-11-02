@@ -31,11 +31,11 @@ export const signUpSchema = z.object({
 });
 
 export const mealsGenerateSchema = z.object({
-    targetCalories: z.number().int().min(500).max(10000,{
+    targetCalories: z.number().int().min(500).max(7000,{
         message: "Target calories must be between 1000 and 10000",
     }),
     diet: z.string({
         required_error: "Please select a diet",
     }),
-    exclude: z.string().trim(),
+    exclude: z.string().trim()
 })
