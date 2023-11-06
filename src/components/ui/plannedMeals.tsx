@@ -100,17 +100,24 @@ const PlannedMeals = () => {
 
     return(
         <>
-            <div className={"flex flex-col items-center"}>
-                <DatePicker date={date} setDate={setDate} />
+            <div className={"border-2 border-black h-[400px]"}>
+                <div className={"w-full"}>
+                    <DatePicker date={date} setDate={setDate} />
+                </div>
+                <div className={"flex justify-center items-center w-full gap-8"}>
+                    <p className={"text-6xl font-bold"}>{data?.day}</p>
+                </div>
                 {data ? data.items.map((item) => {
                     return(
-                        <div key={item.id} className={"flex flex-col"}>
-                            <p>{item.value.title}</p>
-                            <p>{item.value.servings}</p>
-                            <p>{item.value.imageType}</p>
+                        <div key={item.id} className={"flex flex-col w-full items-center justify-center"}>
+                            <div className={"flex flex-row"}>
+                                <p>{item.value.title}</p>
+                                <p>{item.value.servings}</p>
+                                <p>{item.value.imageType}</p>
+                            </div>
                         </div>
                     )
-                }): null}
+                }): <p className={"text-6xl text-center"}>You have to plan something</p>}
             </div>
         </>
     );

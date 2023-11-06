@@ -4,7 +4,7 @@ import {cn} from "@/lib/utils.ts";
 import {CalendarIcon} from "lucide-react";
 import { format } from "date-fns"
 import {Calendar} from "@/components/ui/calendar.tsx";
-const DatePicker = ({date, setDate} : {date: Date | undefined, setDate: (date: Date | undefined) => void}) => {
+const DatePicker = ({date, setDate, className} : {date: Date | undefined, setDate: (date: Date | undefined) => void, className?: string | undefined}) => {
     return(
         <Popover>
             <PopoverTrigger>
@@ -19,7 +19,7 @@ const DatePicker = ({date, setDate} : {date: Date | undefined, setDate: (date: D
                     {date ? format(date, "PPP") : <span>Pick a date</span>}
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className={"w-auto p-0"}>
+            <PopoverContent className={cn("w-auto p-0", className)}>
                 <Calendar
                 mode={"single"}
                 selected={date}

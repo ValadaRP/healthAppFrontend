@@ -90,6 +90,9 @@ const AddRecipeButton = ({id, servings, title, imageType}: {id: number, servings
     }
     const addRecipeSubmit = useMutation({
         mutationFn: addRecipe,
+        onSuccess: () => {
+            queryClient.invalidateQueries('plannedMeals');
+        }
     });
     const onSubmit = async () => {
         addRecipeSubmit.mutate();

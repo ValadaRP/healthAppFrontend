@@ -27,12 +27,19 @@ const DialogInfo = ({recipeId} : {recipeId: number}) => {
         return res.data;
     }
 
+    const removeTags = (str: string) => {
+        if ((str===null) || (str===''))
+            return false;
+        else
+            str = str.toString();
+        return str.replace( /(<([^>]+)>|\$)/ig, '');
+    }
+
     const {data} = useQuery({
         queryKey: ['recipeInfo', recipeId],
         queryFn: fetchRecipeInfo,
         enabled: false,
     });
-
 
     return(
         <Dialog>
@@ -43,7 +50,7 @@ const DialogInfo = ({recipeId} : {recipeId: number}) => {
                 <DialogHeader>
                     <DialogTitle>{data?.title}</DialogTitle>
                     <DialogDescription className={"p-2"}>
-                        {data ? <div dangerouslySetInnerHTML={{ __html: data.summary }}></div> : null}
+                        {data ? <div>{removeTags(data.summary)}</div> : null}
                     </DialogDescription>
                 </DialogHeader>
             </DialogContent>

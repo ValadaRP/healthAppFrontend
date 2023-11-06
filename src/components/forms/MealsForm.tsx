@@ -81,7 +81,7 @@ const MealsForm = () => {
 
 
     return(
-        <div className={"w-full shadow-2xl rounded-md"}>
+        <div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-8 p-4"}>
                     <FormField
@@ -179,10 +179,9 @@ const MealsForm = () => {
             <div>
                 <Meal data={data} />
             </div>
-            <div>
+            <div className={"w-[95%] mx-auto rounded-md"}>
                 <PlannedMeals />
             </div>
-
         </div>
     )
 };
