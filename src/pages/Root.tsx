@@ -6,6 +6,7 @@ import App from "@/pages/App.tsx";
 import DietManagement from "@/pages/DietManagement.tsx";
 import Navbar from "@/pages/Navbar.tsx";
 import HeartPrediction from "@/pages/HeartPrediction.tsx";
+import MealsForm from "@/components/forms/MealsForm.tsx";
 
 function Root() {
   const {token, login, logout, email} = useAuth();
@@ -15,7 +16,7 @@ function Root() {
             <Routes>
                 <Route path={"/"} element={<App/>} />
                 <Route path={"/login"} element={<Authorization/>} />
-                <Route path={"/diet-management"} element={<DietManagement/>} />
+                <Route path={"/diet-management"} element={<MealsForm/>} />
                 <Route path={"/heart-prediction"} element={<HeartPrediction />} />
             </Routes>)
     }else {

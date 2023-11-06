@@ -1,7 +1,6 @@
 import DialogInfo from "@/components/ui/dialogInfo.tsx";
 import TooltipButton from "@/components/ui/tooltipButton.tsx";
-
-
+import AddRecipeButton from "@/components/ui/addRecipeButton.tsx";
 interface MealProps {
     data:{
         meals:{
@@ -44,8 +43,7 @@ const Meal = (props: MealProps) => {
                             <p>Protein</p>
                             <p>{props.data?.nutrients.protein}</p>
                         </div>
-                    </div> : null
-                }
+                    </div> : null}
                 <div className={"grid md:grid-cols-3 gap-4 items-center justify-center rounded-md p-4 mt-8"}>
                     {props.data ? props.data.meals.map((meal) => (
                             <div key={meal.id} className={"flex flex-col items-center justify-center "}>
@@ -55,9 +53,12 @@ const Meal = (props: MealProps) => {
                                     <p className={"scroll-m-20 text-xl font-semibold "}>You can prepare it in: {meal.readyInMinutes}m</p>
                                     <p className={"scroll-m-20 text-xl font-semibold "}>Numbers of servings: {meal.servings}</p>
                                 </div>
-                                <div className={"flex flex-row mt-2"}>
+                                <div className={"flex flex-row mt-2 gap-x-2"}>
                                     <TooltipButton message={"Click for more recipe info"}>
                                         <DialogInfo recipeId={meal.id} />
+                                    </TooltipButton>
+                                    <TooltipButton message={"Click to add to your diet"}>
+                                        <AddRecipeButton id={meal.id} title={meal.title} imageType={meal.imageType} servings={meal.servings}/>
                                     </TooltipButton>
                                 </div>
                             </div>

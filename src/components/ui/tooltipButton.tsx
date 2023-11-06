@@ -11,7 +11,7 @@ const TooltipButton = ({ message, children }: { message: string; children: React
             <Tooltip>
                 <TooltipTrigger>{children}</TooltipTrigger>
                 <TooltipContent>
-                    <p>{message}</p>
+                    {message}
                 </TooltipContent>
             </Tooltip>
         </TooltipProvider>

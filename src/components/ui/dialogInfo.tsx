@@ -30,6 +30,7 @@ const DialogInfo = ({recipeId} : {recipeId: number}) => {
     const {data} = useQuery({
         queryKey: ['recipeInfo', recipeId],
         queryFn: fetchRecipeInfo,
+        enabled: false,
     });
 
 

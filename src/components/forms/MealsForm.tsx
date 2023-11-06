@@ -22,6 +22,7 @@ import axios from "axios";
 import {useQuery} from "react-query";
 import {toast} from "react-toastify";
 import Meal from "@/components/ui/meal.tsx";
+import PlannedMeals from "@/components/ui/plannedMeals.tsx";
 
 interface MealProps {
         meals:{
@@ -177,6 +178,9 @@ const MealsForm = () => {
             </Form>
             <div>
                 <Meal data={data} />
+            </div>
+            <div>
+                <PlannedMeals />
             </div>
 
         </div>
