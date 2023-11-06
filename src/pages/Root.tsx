@@ -5,6 +5,7 @@ import {AuthContext} from "@/context/auth-context.ts";
 import App from "@/pages/App.tsx";
 import DietManagement from "@/pages/DietManagement.tsx";
 import Navbar from "@/pages/Navbar.tsx";
+import HeartPrediction from "@/pages/HeartPrediction.tsx";
 
 function Root() {
   const {token, login, logout, email} = useAuth();
@@ -15,6 +16,7 @@ function Root() {
                 <Route path={"/"} element={<App/>} />
                 <Route path={"/login"} element={<Authorization/>} />
                 <Route path={"/diet-management"} element={<DietManagement/>} />
+                <Route path={"/heart-prediction"} element={<HeartPrediction />} />
             </Routes>)
     }else {
         router =(
@@ -23,9 +25,6 @@ function Root() {
                 <Route path={"/login"} element={<Authorization/>} />
             </Routes>)
     }
-
-
-
     return (
       <AuthContext.Provider value={{
         isLoggedIn: !!token,

@@ -13,6 +13,7 @@ const Navbar = () => {
                     <ul className={"flex justify-end h-full items-center gap-x-14 mr-8 "}>
                         <li className={"text-white hover:bg-gray-600"}><Link to={"/"} className={"w-full h-full "}>Home</Link></li>
                         {isLoggedIn ? <li className={"text-white "}><Link to={"/diet-management"}>Diet Management</Link></li> : null}
+                        {isLoggedIn ? <li className={"text-white "}><Link to={"/heart-prediction"}>Heart prediction</Link></li> : null}
                         <li className={"text-white "}><LogButton to={"/login"}/></li>
                     </ul>
                 </div>

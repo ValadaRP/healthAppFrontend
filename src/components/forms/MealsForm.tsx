@@ -176,7 +176,6 @@ const MealsForm = () => {
                 </form>
             </Form>
             <div>
-
                 <Meal data={data} />
             </div>
 
