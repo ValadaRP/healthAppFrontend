@@ -19,6 +19,13 @@ import axios from "axios";
 import {useMutation} from "react-query";
 import {AuthContext} from "@/context/auth-context.ts";
 import {useContext} from "react";
+import {Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger} from "@/components/ui/dialog.tsx";
+
+interface HeartPredictionFormProps {
+    data: {
+        Prediction: string;
+    }
+}
 
 const HeartPredictionForm = () => {
     const auth = useContext(AuthContext);
@@ -53,22 +60,21 @@ const HeartPredictionForm = () => {
                 Authorization: `Bearer ${auth.token}`,
             },
         }), {
-            pending: 'Logging in...',
-            success: 'Logged in successfully ! 😁',
+            pending: 'Sending data...',
+            success: 'Send successfully ! 😁',
             error: 'Something went wrong ! 😒',
         });
 
     }
-    const {mutate} = useMutation({
+    const {mutate, data} = useMutation({
         mutationFn: heartRequest,
-        onSuccess: (data) => {
-            console.log(data);
+        onSuccess: () => {
+            console.table(data);
         },
-    });
+    }) as {data: HeartPredictionFormProps, mutate: (values: z.infer<typeof heartPredictionSchema>) => void};
 
     function onSubmit(values: z.infer<typeof heartPredictionSchema>) {
-        // mutate(values);
-        console.log(form.getValues());
+        mutate(values);
     }
 
     return(
@@ -382,7 +388,18 @@ const HeartPredictionForm = () => {
                         />
                     </div>
                 </div>
-                <Button type="submit" className={"h-10 w-[250px]"}>Submit</Button>
+                <Dialog>
+                    <DialogTrigger disabled={!data}>
+                        <Button type={"submit"} className={'h-10 w-[250px]'} >Submit</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogTitle>Your results</DialogTitle>
+                        <DialogDescription>
+                            {data?.data.Prediction}
+                        </DialogDescription>
+                    </DialogContent>
+                </Dialog>
+
             </form>
         </Form>
     );
