@@ -23,7 +23,7 @@ interface MealProps {
 const Meal = (props: MealProps) => {
     return(
         <>
-            <div className={"w-full h-screen"}>
+            {props.data ? <div className={"w-full h-screen"}>
                 <p className={"text-6xl font-bold text-center m-8"}>Your meals for today</p>
                 {props.data ?
                     <div className={"grid grid-cols-4 justify-around content-center text-center w-3/4 mx-auto shadow-2xl p-4 rounded-md border-[0.5px]"}>
@@ -65,7 +65,7 @@ const Meal = (props: MealProps) => {
                         )
                     ) : null}
                 </div>
-            </div>
+            </div> : null}
 
         </>
 

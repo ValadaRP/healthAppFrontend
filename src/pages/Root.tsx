@@ -3,7 +3,6 @@ import Authorization from "@/pages/Authorization.tsx";
 import {useAuth} from "@/hooks/auth-hook.ts";
 import {AuthContext} from "@/context/auth-context.ts";
 import App from "@/pages/App.tsx";
-import DietManagement from "@/pages/DietManagement.tsx";
 import Navbar from "@/pages/Navbar.tsx";
 import HeartPrediction from "@/pages/HeartPrediction.tsx";
 import MealsForm from "@/components/forms/MealsForm.tsx";
@@ -17,7 +16,7 @@ function Root() {
                 <Route path={"/"} element={<App/>} />
                 <Route path={"/login"} element={<Authorization/>} />
                 <Route path={"/diet-management"} element={<MealsForm/>} />
-                <Route path={"/heart-prediction"} element={<HeartPrediction />} />
+                <Route path={"/labs"} element={<HeartPrediction />} />
             </Routes>)
     }else {
         router =(

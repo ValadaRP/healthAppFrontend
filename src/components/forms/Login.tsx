@@ -28,8 +28,6 @@ export default function Login(){
             token: string;
         }
     }
-
-    // React Hook Form
     const form = useForm<z.infer<typeof logInSchema>>({
         resolver: zodResolver(logInSchema),
         defaultValues: {
@@ -46,7 +44,6 @@ export default function Login(){
             success: 'Logged in successfully ! 😁',
             error: 'Something went wrong ! 😒',
         });
-
     }
     const {mutate} = useMutation({
         mutationFn: apiRequest,

@@ -20,6 +20,8 @@ import {useMutation} from "react-query";
 import {AuthContext} from "@/context/auth-context.ts";
 import {useContext} from "react";
 import {Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger} from "@/components/ui/dialog.tsx";
+import {Loader2} from "lucide-react";
+import FileUpload from "@/components/ui/fileUpload.tsx";
 
 interface HeartPredictionFormProps {
     data: {
@@ -40,7 +42,6 @@ const HeartPredictionForm = () => {
             fastingGlucose: 57,
         },
     });
-
     const heartRequest = async (values: z.infer<typeof heartPredictionSchema>) => {
         return await toast.promise(axios.post('http://localhost:8080/api/image/heart', {
             age: values.age,
@@ -66,18 +67,18 @@ const HeartPredictionForm = () => {
         });
 
     }
-    const {mutate, data} = useMutation({
+    const {mutate, data, isLoading} = useMutation({
         mutationFn: heartRequest,
         onSuccess: () => {
             console.table(data);
         },
-    }) as {data: HeartPredictionFormProps, mutate: (values: z.infer<typeof heartPredictionSchema>) => void};
-
+    }) as {data: HeartPredictionFormProps, mutate: (values: z.infer<typeof heartPredictionSchema>) => void, isLoading:boolean};
     function onSubmit(values: z.infer<typeof heartPredictionSchema>) {
         mutate(values);
     }
 
     return(
+        <>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 min-h-screen">
                 <div className={"flex flex-row w-full gap-8 mt-4 text"}>
@@ -182,7 +183,7 @@ const HeartPredictionForm = () => {
                         />
                     </div>
                 </div>
-                <div className={"flex flex-row gap-96 "}>
+                <div className={"flex md:flex-row xl:gap-96 sm:flex-col sm:gap-12  "}>
                     <div className={"flex flex-col gap-4"}>
                         <FormField
                             control={form.control}
@@ -389,19 +390,20 @@ const HeartPredictionForm = () => {
                     </div>
                 </div>
                 <Dialog>
-                    <DialogTrigger disabled={!data}>
+                    <DialogTrigger disabled={!form.formState.isValid}>
                         <Button type={"submit"} className={'h-10 w-[250px]'} >Submit</Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogTitle>Your results</DialogTitle>
                         <DialogDescription>
-                            {data?.data.Prediction}
+                            {isLoading ? <Loader2 className={"w-20 h-20 animate-spin mx-auto text-black"}/> : data?.data.Prediction}
                         </DialogDescription>
                     </DialogContent>
                 </Dialog>
-
             </form>
         </Form>
+        <FileUpload />
+        </>
     );
 };
 

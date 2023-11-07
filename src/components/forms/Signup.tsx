@@ -28,7 +28,6 @@ const Signup = () => {
             token: string;
         }
     }
-
     const form = useForm({
         resolver: zodResolver(signUpSchema),
         defaultValues: {

@@ -5,6 +5,7 @@ import {AuthContext} from "@/context/auth-context.ts";
 import {UserSpoonData} from "@/components/ui/addRecipeButton.tsx";
 import DatePicker from "@/components/ui/datePicker.tsx";
 import {format} from "date-fns";
+import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 
 interface PlannedMeals{
     nutritionSummary: {
@@ -94,31 +95,45 @@ const PlannedMeals = () => {
     const {data} = useQuery({
         queryKey: ['plannedMeals', date],
         queryFn: fetchSpoonMeals,
-        // enabled: !!date,
-        enabled: false,
+        enabled: !!date,
+        // enabled: false,
     });
 
     return(
         <>
-            <div className={"border-2 border-black h-[400px]"}>
-                <div className={"w-full"}>
-                    <DatePicker date={date} setDate={setDate} />
-                </div>
-                <div className={"flex justify-center items-center w-full gap-8"}>
-                    <p className={"text-6xl font-bold"}>{data?.day}</p>
-                </div>
-                {data ? data.items.map((item) => {
-                    return(
-                        <div key={item.id} className={"flex flex-col w-full items-center justify-center"}>
-                            <div className={"flex flex-row"}>
-                                <p>{item.value.title}</p>
-                                <p>{item.value.servings}</p>
-                                <p>{item.value.imageType}</p>
-                            </div>
-                        </div>
-                    )
-                }): <p className={"text-6xl text-center"}>You have to plan something</p>}
-            </div>
+            <DatePicker date={date} setDate={setDate} />
+            {data ? (
+                    <div className="h-[400px] mb-16">
+                        <Table>
+                            <TableCaption>Your Planned Meals</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Title</TableHead>
+                                    <TableHead>Servings</TableHead>
+                                    <TableHead>Image</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {data.items.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell className="font-medium text-gray-800">{item.value.title}</TableCell>
+                                        <TableCell className="text-gray-600">{item.value.servings}</TableCell>
+                                        <TableCell>
+                                            <img
+                                                src={`https://spoonacular.com/recipeImages/${item.value.id}-636x393.${item.value.imageType}`}
+                                                alt="Image Description"
+                                                className="h-40 w-40"
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                ) : (
+                    <p className="text-xl text-red-600">You have to add something to planned meals</p>
+                )
+            }
         </>
     );
 }
