@@ -93,10 +93,11 @@ const FileUpload = () => {
                         {isLoading ? <Loader2 className={"w-20 h-20 animate-spin mx-auto text-black"}/> :
                             data.data.map((item,index) => {
                                 return(
-                                    <div key={index} className={"flex flex-col w-full items-center justify-center"}>
-                                        <div className={"flex flex-col"}>
+                                    <div key={index} className={"flex flex-col w-full items-center justify-center mb-2"}>
+                                        <div className={"flex flex-col text-xl"}>
+                                            <p>Photo number: {index + 1}</p>
                                             <p>Probability of prediction: {item.probability}%</p>
-                                            <p>Recognition class: {item.recognition_class}</p>
+                                            <p>Recognized: <span className={"font-bold"}>{item.recognition_class.toUpperCase()}</span></p>
                                         </div>
                                     </div>
                                 )

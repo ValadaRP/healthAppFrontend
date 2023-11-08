@@ -6,13 +6,15 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import {Info} from "lucide-react";
+import {ArrowRightSquare, Info} from "lucide-react";
 import {useQuery} from "react-query";
 import axios from "axios";
+import {Button} from "@/components/ui/button.tsx";
 
 interface RecipeInfoResponse {
     title: string;
     summary: string;
+    spoonacularSourceUrl: string;
 }
 
 const DialogInfo = ({recipeId} : {recipeId: number}) => {
@@ -38,8 +40,12 @@ const DialogInfo = ({recipeId} : {recipeId: number}) => {
     const {data} = useQuery({
         queryKey: ['recipeInfo', recipeId],
         queryFn: fetchRecipeInfo,
-        enabled: false,
+        // enabled: false,
     });
+
+    function redirectToExternalWebsite(url: string | undefined) {
+        window.open(url, '_blank');
+    }
 
     return(
         <Dialog>
@@ -49,9 +55,10 @@ const DialogInfo = ({recipeId} : {recipeId: number}) => {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>{data?.title}</DialogTitle>
-                    <DialogDescription className={"p-2"}>
+                    <DialogDescription>
                         {data ? <div>{removeTags(data.summary)}</div> : null}
                     </DialogDescription>
+                    <Button variant={"default"} onClick={() => redirectToExternalWebsite(data?.spoonacularSourceUrl)}><ArrowRightSquare /></Button>
                 </DialogHeader>
             </DialogContent>
         </Dialog>
