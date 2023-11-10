@@ -39,11 +39,9 @@ To run this project, you will need to add the following environment variables to
 
 `VITE_SPOON_KEY`
 
-You can copy this key on that side
+You can get your own key on that website
 
-```http
-https://spoonacular.com/food-api/docs
-```
+[[Spoonacoular](https://website-name.com)](https://spoonacular.com/food-api/docs)
 
 
 ## Features
