@@ -41,7 +41,7 @@ To run this project, you will need to add the following environment variables to
 
 You can get your own key on that website
 
-[[Spoonacoular](https://website-name.com)](https://spoonacular.com/food-api/docs)
+[[Spoonacoular]](https://spoonacular.com/food-api/docs)
 
 
 ## Features
