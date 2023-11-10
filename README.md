@@ -52,6 +52,17 @@ You can get your own key on that website
 - Predicting based on user inputs heart problems (That was created by my team member)
 - Predicting based on X-RAY images if a person had COVID (That was created by my team member)
 
+## Used tools
+
+- React
+- TypeScript
+- ReactQuery
+- Axios
+- ReactFormHook
+- Zod
+- ShadCNUI
+- TailwindCSS
+
 
 ## Screenshots
 
