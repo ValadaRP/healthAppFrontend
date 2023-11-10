@@ -39,7 +39,7 @@ To run this project, you will need to add the following environment variables to
 
 `VITE_SPOON_KEY`
 
-You can can this key on that side
+You can copy this key on that side
 
 ```http
 https://spoonacular.com/food-api/docs
